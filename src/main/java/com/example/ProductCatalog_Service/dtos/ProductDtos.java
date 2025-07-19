@@ -8,7 +8,7 @@ import lombok.Data;
 public class ProductDtos {
     private Long id;
     private String name;
-    private Category category;
+    private CategoryDtos category;
     private String description;
     private String image_url;
     private Double price;
@@ -17,7 +17,9 @@ public class ProductDtos {
         Product p = new Product();
         p.setId(productDtos.getId());
         p.setName(productDtos.getName());
-        p.setCategory(productDtos.getCategory());
+        if(productDtos.getCategory()!=null) {
+            p.setCategory(CategoryDtos.toCategory(productDtos.getCategory(), productDtos));
+        }
         p.setPrice(productDtos.getPrice());
         p.setDescription(productDtos.getDescription());
         p.setImage_url(productDtos.getImage_url());

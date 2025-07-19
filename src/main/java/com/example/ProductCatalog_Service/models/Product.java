@@ -1,5 +1,6 @@
 package com.example.ProductCatalog_Service.models;
 
+import com.example.ProductCatalog_Service.dtos.CategoryDtos;
 import com.example.ProductCatalog_Service.dtos.ProductDtos;
 import lombok.Data;
 
@@ -15,7 +16,13 @@ public class Product extends BaseModel{
         ProductDtos productDtos = new ProductDtos();
         productDtos.setId(product.getId());
         productDtos.setName(product.getName());
-        productDtos.setCategory(product.getCategory());
+        if(product.getCategory()!=null) {
+            CategoryDtos c = new CategoryDtos();
+            c.setProducts(product.getCategory().getProducts());
+            c.setDescription(product.getCategory().getDescription());
+            c.setCategoryname(product.getCategory().getCategoryname());
+            productDtos.setCategory(c);
+        }
         productDtos.setPrice(product.getPrice());
         productDtos.setImage_url(product.getImage_url());
         productDtos.setDescription(product.getDescription());
