@@ -1,23 +1,18 @@
 package com.example.ProductCatalog_Service.services;
 
 import com.example.ProductCatalog_Service.dtos.FakeStoreProductDtos;
-import com.example.ProductCatalog_Service.dtos.ProductDtos;
 import com.example.ProductCatalog_Service.models.Category;
 import com.example.ProductCatalog_Service.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 

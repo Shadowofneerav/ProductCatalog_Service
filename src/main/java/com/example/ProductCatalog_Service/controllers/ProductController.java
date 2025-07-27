@@ -22,6 +22,10 @@ public class ProductController {
     public ProductDtos getProductbyID(@PathVariable Long id)
     {
 //        Product product = ProductDtos.toProduct(productDtos);
+        if(id<0)
+        {
+            throw new IllegalArgumentException("Product Id is not valid");
+        }
         Optional<Product> response = Optional.ofNullable(productService.getproductbyId(id));
         if(response.isEmpty())
         {
