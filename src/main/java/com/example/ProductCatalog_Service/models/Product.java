@@ -2,6 +2,7 @@ package com.example.ProductCatalog_Service.models;
 
 import com.example.ProductCatalog_Service.dtos.CategoryDtos;
 import com.example.ProductCatalog_Service.dtos.ProductDtos;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -12,6 +13,7 @@ import lombok.Data;
 public class Product extends BaseModel{
     private String name;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Category category;
     private String description;
     private String image_url;
