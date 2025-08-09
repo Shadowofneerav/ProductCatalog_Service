@@ -4,10 +4,8 @@ import com.example.ProductCatalog_Service.dtos.SearchRequestDto;
 import com.example.ProductCatalog_Service.models.Product;
 import com.example.ProductCatalog_Service.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,8 +15,8 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
     @PostMapping
-    public List<Product> searchProducts(@RequestBody SearchRequestDto searchRequestDto)
+    public Page<Product> searchProducts(@RequestBody SearchRequestDto searchRequestDto, @RequestParam(name="sortBy",required = false) List<String> parameter)
     {
-        return searchService.searchProducts(searchRequestDto.getQuery());
+        return searchService.searchProducts(searchRequestDto.getQuery(),searchRequestDto.getPageNo(),searchRequestDto.getPageSize(),parameter);
     }
 }
