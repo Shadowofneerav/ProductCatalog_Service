@@ -79,6 +79,11 @@ public class FakeStoreProductService implements ProductService{
         }
         return null;
     }
+
+    @Override
+    public Product getProductBasedOnUserScope(Long productId, Long userId) {
+        return null;
+    }
 //    @Nullable
 //    public <T> T execute(String uriTemplate, HttpMethod method, @Nullable RequestCallback requestCallback, @Nullable ResponseExtractor<T> responseExtractor, Object... uriVariables) throws RestClientException {
 //        URI url = this.getUriTemplateHandler().expand(uriTemplate, uriVariables);

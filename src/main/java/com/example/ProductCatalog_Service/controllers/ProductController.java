@@ -57,4 +57,11 @@ public class ProductController {
         return Product.toProductDtos(response.get());
     }
 
+    @GetMapping("/{productId}/{userId}")
+    public ProductDtos getProductBasedOnUserScope(@PathVariable Long productId, @PathVariable Long userId)
+    {
+        return Product.toProductDtos(productService.getProductBasedOnUserScope(productId, userId));
+    }
+
+
 }
