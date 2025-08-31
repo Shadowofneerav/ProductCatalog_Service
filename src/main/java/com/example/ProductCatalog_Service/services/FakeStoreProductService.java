@@ -5,6 +5,7 @@ import com.example.ProductCatalog_Service.models.Category;
 import com.example.ProductCatalog_Service.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,8 @@ public class FakeStoreProductService implements ProductService{
     private RestTemplateBuilder restTemplateBuilder;
     private RestTemplate restTemplate;
 //    private String url = "https://fakestoreapi.com/";
-
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
     public FakeStoreProductService()
     {
         restTemplateBuilder = new RestTemplateBuilder();
@@ -31,14 +33,23 @@ public class FakeStoreProductService implements ProductService{
     @Override
     public Product getproductbyId(Long id) {
 
-        ResponseEntity<FakeStoreProductDtos> responseEntity= restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDtos.class,id);
-        FakeStoreProductDtos fakestoreresponse = responseEntity.getBody();
-        if(fakestoreresponse!=null && responseEntity.getStatusCode()== HttpStatusCode.valueOf(200))
-        {
-            Product p = from(fakestoreresponse);
-            return p;
+        FakeStoreProductDtos fakestoreresponse = null;
+        fakestoreresponse = (FakeStoreProductDtos)redisTemplate.opsForHash().get("PRODUCTS",id);
+        if(fakestoreresponse==null) {
+            System.out.println("Not Found in Redis");
+            ResponseEntity<FakeStoreProductDtos> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/{id}", FakeStoreProductDtos.class, id);
+            fakestoreresponse = responseEntity.getBody();
+            redisTemplate.opsForHash().put("PRODUCTS",id,fakestoreresponse);
+            if (fakestoreresponse != null && responseEntity.getStatusCode() == HttpStatusCode.valueOf(200)) {
+                Product p = from(fakestoreresponse);
+                return p;
+            }
         }
-        return null;
+        else
+        {
+            System.out.println("Found in Redis");
+        }
+        return from(fakestoreresponse);
     }
 
     @Override
