@@ -34,6 +34,7 @@ public class FakeStoreProductService implements ProductService{
     public Product getproductbyId(Long id) {
 
         FakeStoreProductDtos fakestoreresponse = null;
+
         fakestoreresponse = (FakeStoreProductDtos)redisTemplate.opsForHash().get("PRODUCTS",id);
         if(fakestoreresponse==null) {
             System.out.println("Not Found in Redis");
